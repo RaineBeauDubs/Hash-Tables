@@ -32,7 +32,10 @@ class HashTable:
 
         OPTIONAL STRETCH: Research and implement DJB2
         '''
-        pass
+        hash = 5381
+        for c in key:
+            hash = (hash * 33) + ord(c)
+        return hash
 
 
     def _hash_mod(self, key):
@@ -51,7 +54,18 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        h_key = self._hash_mod(key)
+        c_pair = self.storage[h_key]
+
+        while c_pair is not None and c_pair.key != key:
+            c_pair = c_pair.next
+
+        if c_pair is None:
+            n_pair = LinkedPair(key, value)
+            n_pair.next = self.storage[h_key]
+            self.storage[h_key] = n_pair
+        else:
+            c_pair.value = value
 
 
 
@@ -63,7 +77,17 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        h_key = self._hash_mod(key)
+        c_pair = self.storage[h_key]
+
+        if c_pair is not None:
+            # basically taking whatever was there and replacing 
+            self.storage[h_key] = None
+        elif c_pair is not None and c_pair.next is not None:
+            n_pair = c_pair.next
+            self.storage[h_key] = n_pair
+        else:
+            print('THIS IS A WARNING: KEY IS NOT FOUND!')
 
 
     def retrieve(self, key):
@@ -74,7 +98,16 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        h_key = self._hash_mod(key)
+        c_pair = self.storage[h_key]
+
+        while c_pair is not None and c_pair.key != key:
+            c_pair = c_pair.next
+
+        if c_pair is None:
+            return None
+        else:
+            return c_pair.value
 
 
     def resize(self):
@@ -84,7 +117,16 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        n_cap = self.capacity * 2
+        n_table = HashTable(n_cap)
+        for n_pair in self.storage:
+            self.insert(n_pair.key, n_pair.value)
+            if n_pair.next:
+                c_pair = n_pair.next
+                while c_pair:
+                    self.insert(c_pair.key, c_pair.value)
+                    c_pair = c_pair.next
+        return n_table
 
 
 
