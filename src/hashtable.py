@@ -117,16 +117,28 @@ class HashTable:
 
         Fill this in.
         '''
-        n_cap = self.capacity * 2
-        n_table = HashTable(n_cap)
-        for n_pair in self.storage:
-            self.insert(n_pair.key, n_pair.value)
-            if n_pair.next:
-                c_pair = n_pair.next
-                while c_pair:
-                    self.insert(c_pair.key, c_pair.value)
-                    c_pair = c_pair.next
-        return n_table
+        #n_cap = self.capacity * 2
+        #n_table = HashTable(n_cap)
+        #for n_pair in self.storage:
+        #    self.insert(n_pair.key, n_pair.value)
+        #    if n_pair.next:
+        #        c_pair = n_pair.next
+        #        while c_pair:
+        #            self.insert(c_pair.key, c_pair.value)
+        #            c_pair = c_pair.next
+        #return n_table
+
+        new_storage = [None] * self.capacity
+        self.storage.extend(new_storage)
+        
+        for pair in new_storage:
+            if pair is not None and pair.next is None:
+                self.storage[self._hash_mod(pair.key)] = pair
+            elif pair is not None and pair.next is not None:
+                pair = pair.next
+                self.storage[self._hash_mod(pair.key)] = pair
+            else:
+                pass
 
 
 
