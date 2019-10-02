@@ -110,14 +110,14 @@ class HashTable:
         new_storage = [None] * self.capacity
         self.storage.extend(new_storage)
         
-        for pair in new_storage:
-            if pair is not None and pair.next is None:
-                self.storage[self._hash_mod(pair.key)] = pair
-            elif pair is not None and pair.next is not None:
-                pair = pair.next
-                self.storage[self._hash_mod(pair.key)] = pair
-            else:
-                pass
+        #for pair in new_storage:
+        #    if pair is not None and pair.next is None:
+        #        self.storage[self._hash_mod(pair.key)] = pair
+        #    elif pair is not None and pair.next is not None:
+        #        pair = pair.next
+        #        self.storage[self._hash_mod(pair.key)] = pair
+        #    else:
+        #        pass
 
 
 
